@@ -1,0 +1,29 @@
+{
+    "manifest_version": 2,
+    "name": "AutoDownloadZerochan",
+    "version": "2.0",
+    "permissions": [
+        "downloads"
+    ],
+    "background": {
+        "scripts": [
+            "background.js"
+        ]
+    },
+    "icons":{
+        "16":"icon.png",
+        "48":"icon.png",
+        "128":"icon.png"
+    },
+    "content_scripts": [{
+        "matches": [
+            "https://www.zerochan.net/*",
+            "http://www.zerochan.net/*"
+        ],
+        "js": [
+            "script.js"
+        ]
+    }]
+
+
+}
