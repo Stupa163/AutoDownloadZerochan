@@ -2,30 +2,56 @@ const ITTERATIONS_LIMIT = 20;
 
 chrome.runtime.onMessage.addListener(function (arg, sender, sendResponse) {
 
-    // chrome.storage.local.get('canceled', function (items) {
-    //     console.log(items.length);
-    //     let test = items[items.length + 1] = {canceled: [1, 2, 3, 4, 5]};
-    //     console.log(test);
-    // });
-
-
     if (arg.message === 'download' && arg.hasOwnProperty('parameters')) {
         downloading(arg.parameters).then(function (idImages) {
             isDownloadFinished(idImages).then(function (canceled) {
                 console.log(canceled);
                 chrome.storage.local.get('canceled', function (items) {
-                    //TODO : Enregistrer les valeurs en mémoir à la suite de celles déjà existantes
-                    console.log(items);
+                    fillObject(items, formatDate(new Date()), canceled).then(function (objectFilled) {
+                        console.log('set');
+                        chrome.storage.local.set({'canceled' : objectFilled});
+                        console.log(objectFilled);
+                    });
                 });
             }).catch(function (error) {
                 console.log(error);
             })
-
         }).catch(function (error) {
             console.log(error)
         });
     }
 });
+
+function fillObject(object, index, value) {
+    object[index] = value;
+    return new Promise(function (resolve, reject) {
+        let itterations = 0;
+        let checkSize = setInterval(function () {
+            itterations++;
+            if (itterations > ITTERATIONS_LIMIT) {
+                reject('Timeout');
+                clearInterval(checkSize);
+            }
+            if (object.hasOwnProperty(index)) {
+                setTimeout(function () {
+                    resolve(object);
+                    clearInterval(checkSize);
+                }, 1000);
+            }
+        }, 750);
+    });
+}
+
+function formatDate(date) {
+    let day = (date.getDate() >= 1 && date.getDate() <= 9) ? '0' + date.getDate() : date.getDate();
+    let month = (date.getMonth() >= 0 && date.getMonth() <= 8) ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
+    let year = (date.getFullYear() >= 1 && date.getFullYear() <= 9) ? '0' + date.getFullYear() : date.getFullYear();
+    let hours = (date.getHours() >= 0 && date.getHours() <= 9) ? '0' + date.getHours() : date.getHours();
+    let minutes = (date.getMinutes() >= 0 && date.getMinutes() <= 9) ? '0' + date.getMinutes() : date.getMinutes();
+    let seconds = (date.getSeconds() >= 0 && date.getSeconds() <= 9) ? '0' + date.getSeconds() : date.getSeconds();
+
+    return day + '-' + month + '-' + year + ' ' + hours + ':' + minutes + ':' + seconds;
+}
 
 function isDownloadFinished(idImages) {
     return new Promise(function (resolve, reject) {
