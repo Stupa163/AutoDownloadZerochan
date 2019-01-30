@@ -1,18 +1,12 @@
 const ITTERATIONS_LIMIT = 20;
 
 chrome.runtime.onMessage.addListener(function (arg, sender, sendResponse) {
-
-    if (arg.message === 'download' && arg.hasOwnProperty('parameters')) {
+        if (arg.message === 'download' && arg.hasOwnProperty('parameters')) {
         downloading(arg.parameters).then(function (idImages) {
             isDownloadFinished(idImages).then(function (canceled) {
-                console.log(canceled);
-                chrome.storage.local.get('canceled', function (items) {
-                    fillObject(items, formatDate(new Date()), canceled).then(function (objectFilled) {
-                        console.log('set');
-                        chrome.storage.local.set({'canceled' : objectFilled});
-                        console.log(objectFilled);
-                    });
-                });
+                if (canceled.length > 0) {
+                    saveCanceledId(canceled);
+                }
             }).catch(function (error) {
                 console.log(error);
             })
@@ -21,6 +15,20 @@ chrome.runtime.onMessage.addListener(function (arg, sender, sendResponse) {
         });
     }
 });
+
+function saveCanceledId(canceled) {
+    return new Promise(function (resolve, reject) {
+        chrome.storage.local.get(['canceled'], function (items) {
+            fillObject(items.canceled, formatDate(new Date()), canceled).then(function (objectFilled) {
+                chrome.storage.local.set({'canceled': objectFilled}, function () {
+                    resolve();
+                });
+            }).catch(function (error) {
+                console.log(error);
+            })
+        });
+    });
+}
 
 function fillObject(object, index, value) {
     object[index] = value;
@@ -38,7 +46,7 @@ function fillObject(object, index, value) {
                     clearInterval(checkSize);
                 }, 1000);
             }
-        }, 750);
+        }, 1000);
     });
 }
 
@@ -101,7 +109,6 @@ function checkCurrentState(idImages, canceled) {
 }
 
 function downloading(images) {
-    console.log(images);
     return new Promise(function (resolve, reject) {
         let idImages = [];
         images.forEach(function (image, index, array) {
@@ -124,8 +131,8 @@ function waitForArrayToBeFilled(arrayToFill, expectedSize) {
     return new Promise(function (resolve, reject) {
         let itterations = 0;
         let checkSize = setInterval(function () {
-            console.log(arrayToFill.length + '/' + expectedSize);
             if (arrayToFill.length !== expectedSize) {
+                console.log(arrayToFill.length + '/' + expectedSize);
                 itterations++;
                 if (itterations > ITTERATIONS_LIMIT) {
                     reject('Timeout');
@@ -133,7 +140,6 @@ function waitForArrayToBeFilled(arrayToFill, expectedSize) {
                 }
                 console.log('waiting...');
             } else {
-                console.log('resolved');
                 resolve();
                 clearInterval(checkSize);
             }
