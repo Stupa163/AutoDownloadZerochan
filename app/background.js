@@ -1,20 +1,25 @@
 const ITTERATIONS_LIMIT = 20;
 
-chrome.runtime.onMessage.addListener(function (arg, sender, sendResponse) {
-        if (arg.message === 'download' && arg.hasOwnProperty('parameters')) {
-        downloading(arg.parameters).then(function (idImages) {
-            isDownloadFinished(idImages).then(function (canceled) {
-                if (canceled.length > 0) {
-                    saveCanceledId(canceled);
-                }
-            }).catch(function (error) {
-                console.log(error);
-            })
-        }).catch(function (error) {
-            console.log(error)
-        });
+chrome.runtime.onMessage.addListener(function (arg, sender) {
+    if (arg.message === 'download' && arg.hasOwnProperty('parameters')) {
+        downloadProcess(arg, sender)
     }
 });
+
+function downloadProcess(arg, sender) {
+    downloading(arg.parameters).then(function (idImages) {
+        isDownloadFinished(idImages).then(async function (canceled) {
+            if (canceled.length > 0) {
+                await saveCanceledId(canceled);
+            }
+            chrome.tabs.sendMessage(sender.tab.id, {'status': 'finished'});
+        }).catch(function (error) {
+            console.log(error);
+        })
+    }).catch(function (error) {
+        console.log(error)
+    });
+}
 
 function saveCanceledId(canceled) {
     return new Promise(function (resolve, reject) {

@@ -1,17 +1,42 @@
-let links = document.getElementsByTagName('a');
-let images = [];
 const EXTENSION_REGEX = /full.*\.(jpg|jpeg|png)$/;
-const TIMER_NEXT_PAGE = 45000;
 
-for (let link in links) {
-    if (EXTENSION_REGEX.test(links[link].href)) {
-        images.push(links[link].href)
-    }
+loadLinks().then(function (images) {
+    chrome.runtime.sendMessage({message: "download", "parameters": images});
+});
+
+function findNextpageButton() {
+    return new Promise(function (resolve, reject) {
+        let paginationButtons = document.getElementsByClassName("pagination")[0].getElementsByTagName("a");
+        for (let i in paginationButtons) {
+            if (paginationButtons[i].text === "Suivante »") {
+                resolve((paginationButtons[i].href));
+            }
+        }
+    })
 }
-chrome.runtime.sendMessage({message: "download", "parameters": images});
-setTimeout(function () {
-    let paginationButtons = document.getElementsByClassName("pagination")[0].getElementsByTagName("a");
-    for (let i in paginationButtons) {
-        (paginationButtons[i].text === "Suivante »") ? window.location.replace(paginationButtons[i].href) : null;
-    }
-}, TIMER_NEXT_PAGE);
+
+findNextpageButton().then(function (uri) {
+    chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+        console.log(request);
+        if(request.status === 'finished') {
+            window.location.replace(uri);
+        }
+    });
+});
+
+function loadLinks() {
+    return new Promise(function (resolve, reject) {
+        let images = [];
+        let links = document.getElementsByTagName('a');
+        for (let link in links) {
+            if (EXTENSION_REGEX.test(links[link].href)) {
+                images.push(links[link].href)
+            }
+            if (parseInt(link) === links.length - 1) {
+                setTimeout(function () {
+                    resolve(images);
+                }, 250);
+            }
+        }
+    });
+}
