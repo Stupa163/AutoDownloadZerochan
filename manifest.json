@@ -1,29 +1,30 @@
 {
-    "manifest_version": 2,
-    "name": "AutoDownloadZerochan",
-    "version": "2.0",
-    "permissions": [
-        "downloads"
-    ],
-    "background": {
-        "scripts": [
-            "background.js"
-        ]
-    },
-    "icons":{
-        "16":"icon.png",
-        "48":"icon.png",
-        "128":"icon.png"
-    },
-    "content_scripts": [{
-        "matches": [
-            "https://www.zerochan.net/*",
-            "http://www.zerochan.net/*"
-        ],
-        "js": [
-            "script.js"
-        ]
-    }]
-
-
+  "manifest_version": 2,
+  "name": "AutoDownloadZerochan",
+  "version": "2.1",
+  "permissions": [
+    "downloads",
+    "storage"
+  ],
+  "background": {
+    "scripts": [
+      "app/background.js"
+    ]
+  },
+  "icons": {
+    "16": "images/icon.png",
+    "48": "images/icon.png",
+    "128": "images/icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.zerochan.net/*",
+        "http://www.zerochan.net/*"
+      ],
+      "js": [
+        "app/script.js"
+      ]
+    }
+  ]
 }
