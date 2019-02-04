@@ -1,0 +1,71 @@
+@import url('animations.css');
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 300px;
+    height: 200px;
+}
+
+hr {
+    padding: 0;
+    margin: 0;
+}
+
+#header {
+    padding-bottom: 10px;
+}
+
+#presentation {
+    width: 225px;
+    text-align: center;
+}
+
+#presentation > h2 {
+    margin-top: 5px;
+    margin-bottom: 0;
+}
+
+#presentation > h3 {
+    margin-top: 5px;
+}
+
+#nodoka {
+    float: right;
+    margin-right: 15px;
+    width: 50px;
+    -webkit-transition: margin-right 0.4s ease-out, width 0.4s ease-out;
+    -moz-transition: margin-right 0.4s ease-out, width 0.4s ease-out;
+    -ms-transition: margin-right 0.4s ease-out, width 0.4s ease-out;
+    -o-transition: margin-right 0.4s ease-out, width 0.4s ease-out;
+    transition: margin-right 0.4s ease-out, width 0.4s ease-out;
+}
+
+#nodoka:hover {
+    /*animation-name: nodokaZoom;*/
+    /*animation-duration: 1s;*/
+    margin-right: 10px;
+    width: 60px;
+}
+
+#github > a {
+    color: black;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.row {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.row:hover {
+    background-color: red;
+}
