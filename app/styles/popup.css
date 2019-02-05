@@ -1,0 +1,36 @@
+@import url("toggleSwitch.css");
+@import url("header.css");
+@import url("github.css");
+@import url("settings.css");
+
+* {
+    outline: none;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 300px;
+    height: 170px;
+}
+
+hr {
+    padding: 0;
+    margin: 0;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.row {
+    height: 20px;
+    padding: 10px;
+}
+
+.row:hover {
+    background-color: wheat;
+}

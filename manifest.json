@@ -1,20 +1,22 @@
 {
   "manifest_version": 2,
-  "name": "AutoDownloadZerochan",
-  "version": "2.1",
+  "name": "AutoDownload Zerochan",
+  "version": "2.2",
+  "author": "Rémi Bosgaerd",
   "permissions": [
     "downloads",
     "storage"
   ],
   "background": {
     "scripts": [
-      "app/background.js"
+      "app/background.js",
+      "app/javascripts/download.js"
     ]
   },
   "icons": {
-    "16": "images/icon.png",
-    "48": "images/icon.png",
-    "128": "images/icon.png"
+    "16": "app/images/icon.png",
+    "48": "app/images/icon.png",
+    "128": "app/images/icon.png"
   },
   "content_scripts": [
     {
@@ -26,5 +28,8 @@
         "app/script.js"
       ]
     }
-  ]
+  ],
+  "browser_action": {
+    "default_popup": "app/views/popup.html"
+  }
 }

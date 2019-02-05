@@ -1,7 +1,20 @@
 const EXTENSION_REGEX = /full.*\.(jpg|jpeg|png)$/;
 
-loadLinks().then(function (images) {
-    chrome.runtime.sendMessage({message: "download", "parameters": images});
+chrome.storage.sync.get(['autoDownload'], function (setting) {
+    if (setting.autoDownload) {
+        loadLinks().then(function (images) {
+            chrome.runtime.sendMessage({message: "download", "parameters": images});
+        });
+
+        findNextpageButton().then(function (uri) {
+            chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+                console.log(request);
+                if(request.status === 'finished') {
+                    window.location.replace(uri);
+                }
+            });
+        });
+    }
 });
 
 function findNextpageButton() {
@@ -14,15 +27,6 @@ function findNextpageButton() {
         }
     })
 }
-
-findNextpageButton().then(function (uri) {
-    chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-        console.log(request);
-        if(request.status === 'finished') {
-            window.location.replace(uri);
-        }
-    });
-});
 
 function loadLinks() {
     return new Promise(function (resolve, reject) {

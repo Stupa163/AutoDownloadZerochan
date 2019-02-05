@@ -1,0 +1,14 @@
+#github > a {
+    color: black;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+#github > .logo {
+    float: right;
+}
+
+#github > .logo > img {
+    width: 20px;
+    margin-right: 10px;
+}

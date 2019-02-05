@@ -1,0 +1,38 @@
+#header {
+    height: 80px;
+    padding-bottom: 10px;
+}
+
+#header > #presentation {
+    margin-top: 10px;
+    width: 225px;
+    text-align: center;
+}
+
+#header > #presentation > h2 {
+    margin-top: 5px;
+    margin-bottom: 0;
+}
+
+#header > #presentation > h3 {
+    margin-top: 5px;
+}
+
+#header > .logo {
+    float: right;
+}
+
+#header > .logo > img {
+    margin-right: 15px;
+    width: 50px;
+    -webkit-transition: margin-right 0.4s ease-out, width 0.4s ease-out;
+    -moz-transition: margin-right 0.4s ease-out, width 0.4s ease-out;
+    -ms-transition: margin-right 0.4s ease-out, width 0.4s ease-out;
+    -o-transition: margin-right 0.4s ease-out, width 0.4s ease-out;
+    transition: margin-right 0.4s ease-out, width 0.4s ease-out;
+}
+
+#header > .logo > img:hover {
+    margin-right: 10px;
+    width: 60px;
+}
