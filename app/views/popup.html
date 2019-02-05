@@ -10,8 +10,8 @@
 <body>
 <!--HEADER-->
 <div id="header">
-    <div id="logo">
-        <img src="../images/nodoka.png" alt="Miyazaki Nodoka" id="nodoka">
+    <div class="logo">
+        <img src="../images/nodoka.png" alt="Miyazaki Nodoka">
     </div>
     <div id="presentation">
         <h2>AutoDownload Zerochan</h2>
@@ -21,9 +21,29 @@
 <hr>
 <!--GITHUB-->
 <div id="github" class="row">
+    <div class="logo">
+        <img src="../images/github.png" alt="Github logo">
+    </div>
     <a href="https://github.com/Stupa163/AutoDownloadZerochan" target="_blank">
         Checkout the code on <span class="bold">Github</span>
     </a>
 </div>
+<hr>
+<!--SETTINGS-->
+<div id="settings" class="row">
+    <div id="settingContainer">
+        <div id="autoDownload">
+            Auto download :
+            <label class="switch">
+                <input type="checkbox" id="checkboxAutoDownload">
+                <span class="slider round"></span>
+            </label>
+        </div>
+        <div id="manageSettings">
+            <a href="settings.html" target="_blank">Manage settings</a>
+        </div>
+    </div>
+</div>
+<script src="../javascripts/settings.js" type="application/javascript"></script>
 </body>
 </html>

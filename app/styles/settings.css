@@ -1,0 +1,15 @@
+#settings > #settingContainer {
+    vertical-align: center;
+}
+
+#settings > #settingContainer > div {
+    display: inline;
+}
+
+#settings > #settingContainer > #autoDownload > .switch {
+    margin-left: 5px;
+}
+
+#settings > #settingContainer > #manageSettings {
+    float: right;
+}

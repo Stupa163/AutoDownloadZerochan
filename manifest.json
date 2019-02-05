@@ -1,14 +1,16 @@
 {
   "manifest_version": 2,
-  "name": "AutoDownloadZerochan",
+  "name": "AutoDownload Zerochan",
   "version": "2.2",
+  "author": "Rémi Bosgaerd",
   "permissions": [
     "downloads",
     "storage"
   ],
   "background": {
     "scripts": [
-      "app/background.js"
+      "app/background.js",
+      "app/javascripts/download.js"
     ]
   },
   "icons": {
